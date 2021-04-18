@@ -15,10 +15,10 @@ class AES_Block:
 
         if previous_block: # Checks to ensure it isn't the first block
             self.previous_block = previous_block
-            self.data = (previous_block.block + "USER/VOTE," + user_id + "/" + vote) #Data of block chain is previous_block plus data of new block 
+            self.data = (previous_block.block + "USER/VOTE," + user_id.decode("utf8") + "/" + vote.decode("utf8")) #Data of block chain is previous_block plus data of new block 
             
         else:
-            self.data = ("USER/VOTE,"+ user_id + "/" + vote)
+            self.data = ("USER/VOTE,"+ user_id.decode("utf8") + "/" + vote.decode("utf8"))
             self.previous_block = None
     
 
@@ -31,7 +31,9 @@ class AES_Block:
 
         self.e_cipher = AES.new(self.key, AES.MODE_CBC, IV)
 
-        self.block = self.e_cipher.encrypt(pad(self.data, AES.block_size)) #Encrypt the data
+        
+
+        self.block = self.e_cipher.encrypt(pad(self.data.encode("utf8"), AES.block_size)) #Encrypt the data
         #self.block = self.e_cipher.encrypt(self.data, AES.block_size)
 
     def Decrypt_Block(self):

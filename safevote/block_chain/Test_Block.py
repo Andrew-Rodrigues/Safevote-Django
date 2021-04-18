@@ -4,15 +4,15 @@ import hashlib
 
 
 
-aes_block = AES_Block("AROID", "TRUMP", IV = "RAHYUTKILLPOLIUH")
-aes_block2 = AES_Block("Rod", "Biden", previous_block = aes_block)
+aes_block = AES_Block("AROID".encode("utf8"), "TRUMP".encode("utf8"), IV = "RAHYUTKILLPOLIUH".encode("utf8"))
+aes_block2 = AES_Block("Rod".encode("utf8"), "Biden".encode("utf8"), previous_block = aes_block)
 
 
 aes_block_chain = AES_Block_Chain(aes_block)
 
 aes_block_chain.Add_Block(aes_block2)
 
-aes_block3 = AES_Block("Brandito", "Kanye", previous_block = aes_block_chain.Get_Curr_Block())
+aes_block3 = AES_Block("Brandito".encode("utf8"), "Kanye".encode("utf8"), previous_block = aes_block_chain.Get_Curr_Block())
 
 aes_block_chain.Add_Block(aes_block3)
 
@@ -24,10 +24,10 @@ rah = aes_block3.Decrypt_Block()
 for i in range(10000):
 
     if ( i % 2 ):
-        new_block = AES_Block("ROD", "TRUMP", aes_block_chain.Get_Curr_Block())
+        new_block = AES_Block("ROD".encode("utf8"), "TRUMP".encode("utf8"), aes_block_chain.Get_Curr_Block())
         aes_block_chain.Add_Block(new_block)
     else:
-        new_block = AES_Block("Brandon", "Kanye" , aes_block_chain.Get_Curr_Block())
+        new_block = AES_Block("Brandon".encode("utf8"), "Kanye".encode("utf8") , aes_block_chain.Get_Curr_Block())
         aes_block_chain.Add_Block(new_block)
 
 

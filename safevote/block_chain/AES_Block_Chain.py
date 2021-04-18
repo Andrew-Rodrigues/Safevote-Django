@@ -62,7 +62,7 @@ class AES_Block_Chain:
         curr = self.Get_Curr_Block()
         if len (self.chain) > 1:
             if curr.previous_block.block is not self.chain[len(self.chain) - 2].block:
-                print("FOOOK") 
+                print("ERROR BLOCK CHAIN TAMPERED WITH") 
                 return False
             else:
                 return True

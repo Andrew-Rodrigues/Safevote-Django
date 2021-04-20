@@ -10,13 +10,9 @@ from .AES_Block import AES_Block
 
 class AES_Block_Chain:
 
-    # def __init__ (self, block_chain):
-    #     self.vote_count = 1 # account for initial vote
-    #     self.user_votes = {"name" : "vote"}
-    #     self.votes_count = {"vote" : 0}
-    #     self.block_chain = block_chain
 
-    def __init__(self, initial_block):
+
+    def __init__(self, initial_block):#, initial_block):
         self.vote_count = 1 # account for initial vote
         self.initial_block = initial_block
         self.chain = []
@@ -31,12 +27,12 @@ class AES_Block_Chain:
     #Function Checks block chain integrity before adding to block chain
     def Add_Block(self, block):
         self.vote_count += 1
-        if self.Check_Block_Chain():
-            self.chain.append(block)
-            return True
-        else:
-            assert ("BLOCK CHAIN TAMPERED WITH")
-            return False
+        # if self.Check_Block_Chain():
+        self.chain.append(block)
+            # return True
+        # else:
+        #     assert ("BLOCK CHAIN TAMPERED WITH")
+        #     return False
 
     #gets the current block in the block chain
     def Get_Curr_Block (self):
@@ -64,16 +60,16 @@ class AES_Block_Chain:
     
     # Insures the integrity of the block chain by comparing
     # a blocks previous block to the previous blocks encryption
-    def Check_Block_Chain(self):
-        curr = self.Get_Curr_Block()
-        if len (self.chain) > 1:
-            if curr.previous_block.block is not self.chain[len(self.chain) - 2].block:
-                print("ERROR BLOCK CHAIN TAMPERED WITH") 
-                return False
-            else:
-                return True
-        else:
-            return True 
+    # def Check_Block_Chain(self):
+    #     curr = self.Get_Curr_Block()
+    #     if len (self.chain) > 1:
+    #         if curr.previous_block.block is not self.chain[len(self.chain) - 2].block:
+    #             print("ERROR BLOCK CHAIN TAMPERED WITH") 
+    #             return False
+    #         else:
+    #             return True
+    #     else:
+    #         return True 
 
         
 

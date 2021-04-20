@@ -20,8 +20,9 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('addvote/<slug:user_id>/<slug:vote>/slug:hmac>', views.AddVote),
-    path('addelection/<slug:election_id>/<slug:candidates>', views.AddElection)
-    # path('add_vote/<string:e_id>/<string:u_id>/<string:vote>', views.add_vote),
-    # path('countvotes', views),
+    path('addvote/<slug:election_id>/<slug:user_id>/<slug:vote>/<slug:hmac>', views.AddVote),
+    path('addelection/<slug:election_id>/<slug:candidates>/<slug:hmac>', views.AddElection),
+    path('calculateelection/<slug:election_id>', views.CalculateElection),
+    path('deleteelection/<slug:election_id>/<slug:hmac>', views.DeleteElection),
+    path('testdb', views.TestDB)
 ]

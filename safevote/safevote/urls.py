@@ -22,7 +22,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('addvote/<slug:election_id>/<slug:user_id>/<slug:vote>/<slug:hmac>', views.AddVote),
     path('addelection/<slug:election_id>/<slug:candidates>/<slug:hmac>', views.AddElection),
-    path('calculateelection/<slug:election_id>', views.CalculateElection),
+    path('calculateelection/<slug:election_id>/<slug:hmac>', views.CalculateElection),
     path('deleteelection/<slug:election_id>/<slug:hmac>', views.DeleteElection),
     path('testdb', views.TestDB)
 ]

@@ -33,14 +33,24 @@ def AddVote(request, election_id, user_id, vote, hmac):
     data = (election_id+user_id + vote).encode()
 
     if(not CheckHMAC(hmac, data)):
-        return HttpResponse(403)
+        return HttpResponse(status = 403, headers = {
+  "Access-Control-Allow-Origin": "*", # Required for CORS support to work
+  "Access-Control-Allow-Credentials": True, # Required for cookies, authorization headers with HTTPS
+  "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+},)
 
     #GET ELECTION AND GET LAST ADDED BLOCK
     try:
         election = Elections.objects.get(election_id = election_id)
     except:
         print("ERROR QUERYING: ELECTION DOESN'T EXIST")
-        return HttpResponse(500)
+        return HttpResponse(status =500, headers = {
+  "Access-Control-Allow-Origin": "*", # Required for CORS support to work
+  "Access-Control-Allow-Credentials": True, # Required for cookies, authorization headers with HTTPS
+  "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+},)
     #try:
     previous_block = Block.objects.last()
     #except:
@@ -63,7 +73,12 @@ def AddVote(request, election_id, user_id, vote, hmac):
         key = new_block.key,
      )
     
-    return HttpResponse(200)
+    return HttpResponse(status =200,  headers = {
+  "Access-Control-Allow-Origin": "*", # Required for CORS support to work
+  "Access-Control-Allow-Credentials": True, # Required for cookies, authorization headers with HTTPS
+  "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+},)
 
 
 def AddElection(request, election_id, candidates, hmac):
@@ -76,7 +91,12 @@ def AddElection(request, election_id, candidates, hmac):
         data += cand   
 
     if (not CheckHMAC(hmac,data.encode())):
-        return HttpResponse(403)
+        return HttpResponse(status =403, headers = {
+  "Access-Control-Allow-Origin": "*", # Required for CORS support to work
+  "Access-Control-Allow-Credentials": True, # Required for cookies, authorization headers with HTTPS
+  "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+},)
         
 
     #CREATE ELECTION
@@ -85,7 +105,7 @@ def AddElection(request, election_id, candidates, hmac):
         newElection.save()
     except:
         print('ELECTION NOT ADDED')     
-        return HttpResponse(500)
+        return HttpResponse(status =500)
 
 
     #INIT GENISIS BLOCK TO DB
@@ -103,34 +123,34 @@ def AddElection(request, election_id, candidates, hmac):
             newCandidate = Candidates.objects.create(election = newElection, candidate = cand)
     except:
         print('CANDIDATES NOT ADDED')
-        return HttpResponse(500)
+        return HttpResponse(status =500)
 
-    return HttpResponse(200)
+    return HttpResponse(status =200)
 
 
 
 def CalculateElection(request, election_id, hmac):
 
     if (not CheckHMAC(hmac,election_id.encode())):
-        return HttpResponse(403)
+        return HttpResponse(status =403)
 
     try:
         e = Elections.objects.get(election_id = election_id)
     except:
         print("ERROR: QUERYING: ELECTION DOESN'T EXIST")
-        return HttpResponse(500)
+        return HttpResponse(status =500)
 
     try:
         cands = e.candidates_set.all()
     except:
         print("ERROR QUERYING: ALL CANDIDATES")
-        return HttpResponse(500)
+        return HttpResponse(status =500)
         
     try:
         blocks = e.block_set.all()
     except:
         print("ERROR QUERYING: ALL BLOCKS")
-        return HttpResponse(500)
+        return HttpResponse(status =500)
 
     #BUILD BLOCKCHAIN OBJECT WITH BLOCK CHAIN API
     list_cands = []
@@ -180,23 +200,23 @@ def CalculateElection(request, election_id, hmac):
 def DeleteElection(request, election_id, hmac):
 
     if(not CheckHMAC(hmac, election_id.encode())):
-        return HttpResponse(403)
+        return HttpResponse(status =403)
 
     try:
         e = Elections.objects.get(election_id = election_id)
     except:
         print("ERROR QUERYING: ELECTION DOESN'T EXIST")
-        return HttpResponse(500)
+        return HttpResponse(status =500)
 
     #DELTES ELECTION AND ALL CANDIDATES AND BLOCKCHAIN THROUGH CASCADE
     try:
         e.delete()
     except:
         print("ERROR DELETING ELECTION")
-        return HttpResponse(500)
+        return HttpResponse(status =500)
     
 
-    return HttpResponse(200)
+    return HttpResponse(status =200)
 
 
 
